@@ -1,0 +1,1 @@
+export const baseURL = "eventra-main-server-production.up.railway.app/api/v1";
