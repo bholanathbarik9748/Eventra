@@ -11,17 +11,39 @@ import { color } from "@/src/utils/Constant";
 import { styles } from "./Styles/styles";
 import { loginBody } from "./Types/Types";
 import { globalFormHandler } from "@/src/utils/FormHandler";
+import { useNavigation } from "@react-navigation/native";
+
+// import services
+import { loginUser } from "./Services/LoginServices";
+import { HomeScreenNavigationProp } from "@/app/RootStackParamType";
+import { ErrorAlert } from "@/src/modules/ErrorAlert";
 
 const Login = () => {
-  const [formData, setFormData] = useState<loginBody>();
+  const navigationController = useNavigation<HomeScreenNavigationProp>();
+
+  // Local States
+  const [formData, setFormData] = useState<loginBody>({
+    email: "",
+    password: "",
+  });
   const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const togglePasswordVisibility = () => {
     setIsPasswordVisible(!isPasswordVisible);
   };
 
-  const submitHandler = () => {
-    console.log("formData", formData);
+  const submitHandler = async () => {
+    setIsLoading(true);
+    try {
+      const response = await loginUser(formData);
+      if (response?.status === "success") {
+        navigationController.navigate("Home");
+      }
+    } catch (error: any) {
+      ErrorAlert("Validation Error", error?.data?.message[0], "Close");
+    }
+    setIsLoading(false);
   };
 
   return (
@@ -59,8 +81,14 @@ const Login = () => {
         </TouchableOpacity>
       </View>
 
-      <TouchableOpacity style={styles.button} onPress={submitHandler}>
-        <Text style={styles.buttonText}>Login</Text>
+      <TouchableOpacity
+        disabled={isLoading}
+        style={styles.button}
+        onPress={submitHandler}
+      >
+        <Text style={styles.buttonText}>
+          {!isLoading ? "Login" : "Logging in..."}
+        </Text>
       </TouchableOpacity>
 
       <View style={styles.signupContainer}>

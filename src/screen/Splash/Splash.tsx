@@ -4,9 +4,14 @@ import { LinearGradient } from "expo-linear-gradient";
 import { styles } from "./Styles/styles";
 import { useNavigation } from "@react-navigation/native";
 import { useAuthStorage } from "@/src/hooks/useAuthStorage";
+import {
+  HomeScreenNavigationProp,
+  LoginScreenNavigationProp,
+} from "@/app/RootStackParamType";
 
 const Splash = () => {
-  const nav = useNavigation();
+  // navigation
+  const nav = useNavigation<LoginScreenNavigationProp | HomeScreenNavigationProp>();
   const fadeAnim = useRef(new Animated.Value(0)).current;
   const scaleAnim = useRef(new Animated.Value(0.8)).current;
   const { getValue } = useAuthStorage();
@@ -31,6 +36,8 @@ const Splash = () => {
       const token = await getValue(key);
       if (!token) {
         nav.navigate("Login");
+      } else {
+        nav.navigate("Home");
       }
     } catch (error) {
       console.error(error);
