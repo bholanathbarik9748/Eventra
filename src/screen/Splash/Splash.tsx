@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import { StyleSheet, Text, View, Animated } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
-import { styles } from "./styles/styles";
+import { styles } from "./Styles/styles";
 import { useNavigation } from "@react-navigation/native";
 import { useAuthStorage } from "@/src/hooks/useAuthStorage";
 
@@ -30,7 +30,7 @@ const Splash = () => {
     try {
       const token = await getValue(key);
       if (!token) {
-        nav.navigate("SignUp");
+        nav.navigate("Login");
       }
     } catch (error) {
       console.error(error);

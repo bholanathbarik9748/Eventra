@@ -6,7 +6,7 @@ import {
   View,
   TouchableOpacity,
 } from "react-native";
-import { styles } from "./styles/styles";
+import { styles } from "./Styles/styles";
 
 const OtpScreen = () => {
   const [otp, setOtp] = useState(["", "", "", "", "", ""]);

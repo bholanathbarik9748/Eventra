@@ -11,6 +11,8 @@ const Stack = createStackNavigator<RootStackParamList>();
 import Login from "@/src/screen/Login/Login";
 import SignUp from "@/src/screen/SignUp/SingUp";
 import Splash from "@/src/screen/Splash/Splash";
+import OtpScreen from "@/src/screen/OtpVerification/OtpVerification";
+import Home from "@/src/screen/Home/Home";
 
 export default function Page() {
   return (
@@ -30,6 +32,16 @@ export default function Page() {
           <Stack.Screen
             name="SignUp"
             component={SignUp}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="OtpScreen"
+            component={OtpScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="Home"
+            component={Home}
             options={{ headerShown: false }}
           />
         </Stack.Navigator>

@@ -7,21 +7,21 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import { color } from "@/src/utils/constant";
-import { styles } from "./styles/styles";
+import { color } from "@/src/utils/Constant";
+import { styles } from "./Styles/styles";
+import { loginBody } from "./Types/Types";
+import { globalFormHandler } from "@/src/utils/FormHandler";
 
 const Login = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+  const [formData, setFormData] = useState<loginBody>();
+  const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false);
 
   const togglePasswordVisibility = () => {
     setIsPasswordVisible(!isPasswordVisible);
   };
 
-  const handleLogin = () => {
-    console.log("Email:", email);
-    console.log("Password:", password);
+  const submitHandler = () => {
+    console.log("formData", formData);
   };
 
   return (
@@ -34,8 +34,7 @@ const Login = () => {
         placeholderTextColor={color.TextSecondary}
         keyboardType="email-address"
         autoCapitalize="none"
-        value={email}
-        onChangeText={(text) => setEmail(text)}
+        onChangeText={(text) => globalFormHandler("email", text, setFormData)}
       />
 
       <View style={styles.passwordContainer}>
@@ -44,10 +43,14 @@ const Login = () => {
           placeholder="Password"
           placeholderTextColor={color.TextSecondary}
           secureTextEntry={!isPasswordVisible}
-          value={password}
-          onChangeText={(text) => setPassword(text)}
+          onChangeText={(text) =>
+            globalFormHandler("password", text, setFormData)
+          }
         />
-        <TouchableOpacity onPress={togglePasswordVisibility} style={styles.VisibleIcon}>
+        <TouchableOpacity
+          onPress={togglePasswordVisibility}
+          style={styles.VisibleIcon}
+        >
           <Ionicons
             name={isPasswordVisible ? "eye-off" : "eye"}
             size={24}
@@ -56,7 +59,7 @@ const Login = () => {
         </TouchableOpacity>
       </View>
 
-      <TouchableOpacity style={styles.button} onPress={handleLogin}>
+      <TouchableOpacity style={styles.button} onPress={submitHandler}>
         <Text style={styles.buttonText}>Login</Text>
       </TouchableOpacity>
 

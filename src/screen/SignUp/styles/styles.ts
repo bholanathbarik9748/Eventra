@@ -1,4 +1,4 @@
-import { color } from "@/src/utils/constant";
+import { color } from "@/src/utils/Constant";
 import { StyleSheet } from "react-native";
 
 export const styles = StyleSheet.create({

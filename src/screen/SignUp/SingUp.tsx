@@ -7,8 +7,8 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons"; // For the eye icon
-import { color } from "@/src/utils/constant";
-import { styles } from "./styles/styles";
+import { color } from "@/src/utils/Constant";
+import { styles } from "./Styles/styles";
 
 const SignUp = () => {
   const [email, setEmail] = useState("");
