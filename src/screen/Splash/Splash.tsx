@@ -8,10 +8,13 @@ import {
   HomeScreenNavigationProp,
   LoginScreenNavigationProp,
 } from "@/app/RootStackParamType";
+import { useFocusEffect } from "expo-router";
 
 const Splash = () => {
   // navigation
-  const nav = useNavigation<LoginScreenNavigationProp | HomeScreenNavigationProp>();
+  const navigationController = useNavigation<
+    LoginScreenNavigationProp | HomeScreenNavigationProp
+  >();
   const fadeAnim = useRef(new Animated.Value(0)).current;
   const scaleAnim = useRef(new Animated.Value(0.8)).current;
   const { getValue } = useAuthStorage();
@@ -35,18 +38,25 @@ const Splash = () => {
     try {
       const token = await getValue(key);
       if (!token) {
-        nav.navigate("Login");
+        navigationController.navigate("Login");
       } else {
-        nav.navigate("Home");
+        navigationController.navigate("Home");
       }
     } catch (error) {
       console.error(error);
     }
   };
 
-  setTimeout(() => {
-    getAuthToken("access_token");
-  }, 3000);
+  // Trigger logic when screen is focused
+  useFocusEffect(
+    React.useCallback(() => {
+      const timer = setTimeout(() => {
+        getAuthToken("access_token");
+      }, 2000);
+
+      return () => clearTimeout(timer); // Cleanup timer on unfocus
+    }, [])
+  );
 
   return (
     <LinearGradient

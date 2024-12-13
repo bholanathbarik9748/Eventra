@@ -22,11 +22,12 @@ import { ErrorAlert } from "@/src/modules/ErrorAlert";
 
 // import services
 import { loginUser } from "@/src/Services/AuthServices";
+import { useAuthStorage } from "@/src/hooks/UseAuthStorage";
 
 const Login = () => {
-  const navigationController = useNavigation<
-    HomeScreenNavigationProp | SignUpScreenNavigationProp
-  >();
+  const navigationController = useNavigation<HomeScreenNavigationProp | SignUpScreenNavigationProp>();
+
+  const { saveValue } = useAuthStorage();
 
   // Local States
   const [formData, setFormData] = useState<loginBody>({
@@ -44,7 +45,11 @@ const Login = () => {
     setIsLoading(true);
     try {
       const response = await loginUser(formData);
+      debugger
       if (response?.status === "success") {
+        await saveValue("access_token", response?.data?.access_token);
+        await saveValue("userId", response?.data?.userId);
+        await saveValue("role", response?.data?.role);
         navigationController.navigate("Home");
       }
     } catch (error: any) {
