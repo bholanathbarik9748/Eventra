@@ -9,17 +9,24 @@ import {
 import { Ionicons } from "@expo/vector-icons";
 import { color } from "@/src/utils/Constant";
 import { styles } from "./Styles/styles";
-import { loginBody } from "./Types/Types";
+import { loginBody } from "../../Types/AuthTypes";
 import { globalFormHandler } from "@/src/utils/FormHandler";
 import { useNavigation } from "@react-navigation/native";
+import {
+  HomeScreenNavigationProp,
+  SignUpScreenNavigationProp,
+} from "@/app/RootStackParamType";
 
-// import services
-import { loginUser } from "./Services/LoginServices";
-import { HomeScreenNavigationProp } from "@/app/RootStackParamType";
+// Custom component
 import { ErrorAlert } from "@/src/modules/ErrorAlert";
 
+// import services
+import { loginUser } from "@/src/Services/AuthServices";
+
 const Login = () => {
-  const navigationController = useNavigation<HomeScreenNavigationProp>();
+  const navigationController = useNavigation<
+    HomeScreenNavigationProp | SignUpScreenNavigationProp
+  >();
 
   // Local States
   const [formData, setFormData] = useState<loginBody>({
@@ -93,7 +100,9 @@ const Login = () => {
 
       <View style={styles.signupContainer}>
         <Text style={styles.signupText}>Don't have an account?</Text>
-        <TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => navigationController.navigate("SignUp")}
+        >
           <Text style={styles.signupLink}>Sign Up</Text>
         </TouchableOpacity>
       </View>

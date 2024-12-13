@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, Animated } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { styles } from "./Styles/styles";
 import { useNavigation } from "@react-navigation/native";
-import { useAuthStorage } from "@/src/hooks/useAuthStorage";
+import { useAuthStorage } from "@/src/hooks/UseAuthStorage";
 import {
   HomeScreenNavigationProp,
   LoginScreenNavigationProp,

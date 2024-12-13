@@ -1,5 +1,5 @@
 import { apiClient } from "@/src/utils/Api";
-import { loginBody } from "../Types/Types";
+import { loginBody } from "../Types/AuthTypes";
 
 export const loginUser = async (data: loginBody): Promise<any> => {
   try {
