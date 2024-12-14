@@ -7,13 +7,18 @@ import { useAuthStorage } from "@/src/hooks/UseAuthStorage";
 import {
   HomeScreenNavigationProp,
   LoginScreenNavigationProp,
+  ProfileSetupScreenNavigationProp,
 } from "@/app/RootStackParamType";
 import { useFocusEffect } from "expo-router";
+import { ErrorAlert } from "@/src/modules/ErrorAlert";
+import { checkProfileStatus } from "@/src/Services/AuthServices";
 
 const Splash = () => {
   // navigation
   const navigationController = useNavigation<
-    LoginScreenNavigationProp | HomeScreenNavigationProp
+    | LoginScreenNavigationProp
+    | HomeScreenNavigationProp
+    | ProfileSetupScreenNavigationProp
   >();
   const fadeAnim = useRef(new Animated.Value(0)).current;
   const scaleAnim = useRef(new Animated.Value(0.8)).current;
@@ -37,13 +42,21 @@ const Splash = () => {
   const getAuthToken = async (key: string) => {
     try {
       const token = await getValue(key);
-      if (!token) {
+      const userId = await getValue("userId");
+      if (!token && !userId) {
         navigationController.navigate("Login");
       } else {
-        navigationController.navigate("Home");
+        try {
+          const response = await checkProfileStatus(userId);
+          response?.isProfileSetUp
+            ? navigationController.navigate("Home")
+            : navigationController.navigate("ProfileSetup", { id: userId });
+        } catch (error: any) {
+          ErrorAlert("Error", error?.data?.message[0], "Close");
+        }
       }
-    } catch (error) {
-      console.error(error);
+    } catch (error: any) {
+      ErrorAlert("Error", error?.data?.message[0], "Close");
     }
   };
 

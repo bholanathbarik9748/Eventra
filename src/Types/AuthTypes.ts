@@ -15,3 +15,12 @@ export interface SignUpBody {
   role: string;
   otp: string;
 }
+
+export interface ProfileSetupBody {
+  name: string;
+  phone_number: string;
+  location: string;
+  bio: string;
+  date_of_birth: any;
+  profile_picture: any;
+}

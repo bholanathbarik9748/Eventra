@@ -9,7 +9,7 @@ export type RootStackParamList = {
   SignUp: undefined;
   OtpScreen: authOtpRequestBody;
   Home: undefined;
-  ProfileSetup: { id: string };
+  ProfileSetup: { id: string | null };
 };
 
 export type LoginScreenNavigationProp = NavigationProp<RootStackParamList, "Login">;
