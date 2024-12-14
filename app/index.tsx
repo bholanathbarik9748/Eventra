@@ -1,14 +1,15 @@
 import { createStackNavigator } from "@react-navigation/stack";
 import { RootStackParamList } from "./RootStackParamType";
 
+const Stack = createStackNavigator<RootStackParamList>();
+
 // import Screen
 import Splash from "@/src/screen/Splash/Splash";
 import Login from "@/src/screen/Login/Login";
 import SignUp from "@/src/screen/SignUp/SingUp";
 import OtpScreen from "@/src/screen/OtpVerification/OtpVerification";
 import Home from "@/src/screen/Home/Home";
-
-const Stack = createStackNavigator<RootStackParamList>();
+import ProfileSetup from "@/src/screen/ProfileSetup/ProfileSetup";
 
 export default function AppNavigator() {
   return (
@@ -36,6 +37,11 @@ export default function AppNavigator() {
       <Stack.Screen
         name="Home"
         component={Home}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="ProfileSetup"
+        component={ProfileSetup}
         options={{ headerShown: false }}
       />
     </Stack.Navigator>

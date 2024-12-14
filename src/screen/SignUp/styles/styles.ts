@@ -73,5 +73,15 @@ export const styles = StyleSheet.create({
   VisibleIcon: {
     marginRight: 10,
   },
+  checkboxContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 30,
+    marginTop: 20,
+  },
+  checkboxText: {
+    marginLeft: 10,
+    fontSize: 14,
+    color: "#ffffff",
+  },
 });
-

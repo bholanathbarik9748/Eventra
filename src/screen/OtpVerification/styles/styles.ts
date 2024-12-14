@@ -65,4 +65,10 @@ export const styles = StyleSheet.create({
     marginLeft: 5,
     fontWeight: "bold",
   },
+  emailHighlight: {
+    fontSize: 16,
+    fontWeight: "bold",
+    color: color.LightAccentColor, // A bright red or accent color for emphasis
+    textAlign: "center",
+  },
 });

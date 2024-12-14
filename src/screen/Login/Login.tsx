@@ -53,7 +53,7 @@ const Login = () => {
         navigationController.navigate("Home");
       }
     } catch (error: any) {
-      ErrorAlert("Validation Error", error?.data?.message[0], "Close");
+      ErrorAlert("Error", error?.data?.message[0], "Close");
     }
     setIsLoading(false);
   };

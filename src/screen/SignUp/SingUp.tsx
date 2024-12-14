@@ -6,23 +6,48 @@ import {
   View,
   TouchableOpacity,
 } from "react-native";
+import Checkbox from "expo-checkbox";
 import { Ionicons } from "@expo/vector-icons"; // For the eye icon
 import { color } from "@/src/utils/Constant";
 import { styles } from "./Styles/styles";
+import { authOtpRequestBody } from "@/src/Types/AuthTypes";
+import { globalFormHandler } from "@/src/utils/FormHandler";
+import { useNavigation } from "@react-navigation/native";
+import {
+  OtpScreenScreenNavigationProp,
+  SignUpScreenNavigationProp,
+} from "@/app/RootStackParamType";
+import { sendAuthOtp } from "@/src/Services/AuthServices";
+import { ErrorAlert } from "@/src/modules/ErrorAlert";
 
 const SignUp = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+  const navigationController = useNavigation<
+    SignUpScreenNavigationProp | OtpScreenScreenNavigationProp
+  >();
+  const [formData, setFormData] = useState<authOtpRequestBody>({
+    email: "",
+    password: "",
+    role: "Attendee",
+  });
+  const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const togglePasswordVisibility = () => {
     setIsPasswordVisible(!isPasswordVisible);
   };
 
-  const handleSignUp = () => {
-    // Handle Sign Up logic here
-    console.log("Email:", email);
-    console.log("Password:", password);
+  const submitHandler = async () => {
+    setIsLoading(true);
+
+    try {
+      const response = await sendAuthOtp(formData?.email);
+      if (response?.status === "success") {
+        navigationController.navigate("OtpScreen", formData);
+      }
+    } catch (error: any) {
+      ErrorAlert("Error", error?.data?.message[0], "Close");
+    }
+    setIsLoading(false);
   };
 
   return (
@@ -35,8 +60,8 @@ const SignUp = () => {
         placeholderTextColor={color.TextSecondary}
         keyboardType="email-address"
         autoCapitalize="none"
-        value={email}
-        onChangeText={(text) => setEmail(text)}
+        value={formData?.email}
+        onChangeText={(text) => globalFormHandler("email", text, setFormData)}
       />
 
       <View style={styles.passwordContainer}>
@@ -45,8 +70,10 @@ const SignUp = () => {
           placeholder="Password"
           placeholderTextColor={color.TextSecondary}
           secureTextEntry={!isPasswordVisible}
-          value={password}
-          onChangeText={(text) => setPassword(text)}
+          value={formData?.password}
+          onChangeText={(text) =>
+            globalFormHandler("password", text, setFormData)
+          }
         />
         <TouchableOpacity
           onPress={togglePasswordVisibility}
@@ -59,14 +86,35 @@ const SignUp = () => {
           />
         </TouchableOpacity>
       </View>
+      <View style={styles.checkboxContainer}>
+        <Checkbox
+          value={formData?.role === "Organizer"}
+          onValueChange={() => {
+            setFormData((prev) => ({
+              ...prev,
+              role: formData?.role === "Organizer" ? "Attendee" : "Organizer",
+            }));
+          }}
+          color={formData?.role === "Organizer" ? color.AccentColor : undefined}
+        />
+        <Text style={styles.checkboxText}>
+          I am registering as an Event Organizer
+        </Text>
+      </View>
 
-      <TouchableOpacity style={styles.button} onPress={handleSignUp}>
-        <Text style={styles.buttonText}>Sign Up</Text>
+      <TouchableOpacity
+        disabled={isLoading}
+        style={styles.button}
+        onPress={submitHandler}
+      >
+        <Text style={styles.buttonText}>
+          {isLoading ? "Signing Up..." : "Sign Up"}
+        </Text>
       </TouchableOpacity>
 
       <View style={styles.loginContainer}>
         <Text style={styles.loginText}>Already have an account?</Text>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => navigationController.goBack()}>
           <Text style={styles.loginLink}>Login</Text>
         </TouchableOpacity>
       </View>
