@@ -11,12 +11,12 @@ import { SignUpBody } from "@/src/Types/AuthTypes";
 import { ErrorAlert } from "@/src/modules/ErrorAlert";
 import { sendAuthOtp, signUpUser } from "@/src/Services/AuthServices";
 import { useNavigation } from "@react-navigation/native";
-import { ProfileSetupScreenNavigationProp } from "@/app/RootStackParamType";
+import { ProfileScreenNavigationProp } from "@/app/RootStackParamType";
 import { useAuthStorage } from "@/src/hooks/UseAuthStorage";
 
 const OtpScreen: React.FC<any> = ({ route }) => {
   const navigationController =
-    useNavigation<ProfileSetupScreenNavigationProp>();
+    useNavigation<ProfileScreenNavigationProp>();
   const [otp, setOtp] = useState(["", "", "", "", "", ""]);
   const inputs = useRef<(TextInput | null)[]>([]);
   const { email, password, role } = route.params;
@@ -50,7 +50,7 @@ const OtpScreen: React.FC<any> = ({ route }) => {
         await saveValue("access_token", response?.data?.access_token);
         await saveValue("userId", response?.data?.userId);
         await saveValue("role", response?.data?.role);
-        navigationController.navigate("ProfileSetup", {
+        navigationController.navigate("Profile", {
           id: response?.data?.role,
         });
       }

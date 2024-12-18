@@ -9,11 +9,11 @@ export type RootStackParamList = {
   SignUp: undefined;
   OtpScreen: authOtpRequestBody;
   Home: undefined;
-  ProfileSetup: { id: string | null };
+  Profile: { id: string | null };
 };
 
 export type LoginScreenNavigationProp = NavigationProp<RootStackParamList, "Login">;
 export type SignUpScreenNavigationProp = NavigationProp<RootStackParamList, "SignUp">;
 export type OtpScreenScreenNavigationProp = NavigationProp<RootStackParamList, "OtpScreen">;
 export type HomeScreenNavigationProp = NavigationProp<RootStackParamList, "Home">;
-export type ProfileSetupScreenNavigationProp = NavigationProp<RootStackParamList, "ProfileSetup">;
+export type ProfileScreenNavigationProp = NavigationProp<RootStackParamList, "Profile">;

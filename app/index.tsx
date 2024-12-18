@@ -9,7 +9,7 @@ import Login from "@/src/screen/Login/Login";
 import SignUp from "@/src/screen/SignUp/SingUp";
 import OtpScreen from "@/src/screen/OtpVerification/OtpVerification";
 import Home from "@/src/screen/Home/Home";
-import ProfileSetup from "@/src/screen/ProfileSetup/ProfileSetup";
+import Profile from "@/src/screen/Profile/Profile";
 
 export default function AppNavigator() {
   return (
@@ -40,8 +40,8 @@ export default function AppNavigator() {
         options={{ headerShown: false }}
       />
       <Stack.Screen
-        name="ProfileSetup"
-        component={ProfileSetup}
+        name="Profile"
+        component={Profile}
         options={{ headerShown: false }}
       />
     </Stack.Navigator>

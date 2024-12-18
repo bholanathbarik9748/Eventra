@@ -1,5 +1,5 @@
 import { apiClient } from "@/src/utils/Api";
-import { loginBody, ProfileSetupBody, SignUpBody } from "../Types/AuthTypes";
+import { loginBody, ProfileBody, SignUpBody } from "../Types/AuthTypes";
 
 export const loginUser = async (body: loginBody): Promise<any> => {
   try {
@@ -42,7 +42,7 @@ export const checkProfileStatus = async (id: string | null): Promise<any> => {
 };
 
 export const uploadProfilePicture = async (
-  body: ProfileSetupBody
+  body: ProfileBody
 ): Promise<any> => {
   const formData = new FormData();
 
@@ -66,9 +66,9 @@ export const uploadProfilePicture = async (
   }
 };
 
-export const profileSetUp = async (
+export const ProfileSetup = async (
   id: string,
-  body: ProfileSetupBody,
+  body: ProfileBody,
   profileUrl: string
 ): Promise<any> => {
   let reqBody = {

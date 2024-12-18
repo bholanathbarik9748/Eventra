@@ -16,7 +16,7 @@ export interface SignUpBody {
   otp: string;
 }
 
-export interface ProfileSetupBody {
+export interface ProfileBody {
   name: string;
   phone_number: string;
   location: string;

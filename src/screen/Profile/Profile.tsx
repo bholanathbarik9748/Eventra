@@ -13,22 +13,25 @@ import {
 import * as ImagePicker from "expo-image-picker";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { color } from "@/src/utils/Constant";
-import { ProfileSetupBody } from "@/src/Types/AuthTypes";
+import { ProfileBody } from "@/src/Types/AuthTypes";
 import { globalFormHandler } from "@/src/utils/FormHandler";
 import { styles } from "./Styles/Styles";
 import {
-  profileSetUp,
+  ProfileSetup,
   uploadProfilePicture,
 } from "@/src/Services/AuthServices";
 import { ErrorAlert } from "@/src/modules/ErrorAlert";
 import { useNavigation } from "@react-navigation/native";
 import { HomeScreenNavigationProp } from "@/app/RootStackParamType";
+import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
+import "react-native-get-random-values";
+import { KeyboardAvoidingView } from "react-native";
 
-const ProfileSetup: React.FC<any> = ({ route }) => {
+const Profile: React.FC<any> = ({ route }) => {
   const { id } = route.params;
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const navigationController = useNavigation<HomeScreenNavigationProp>();
-  const [profile, setProfile] = useState<ProfileSetupBody>({
+  const [profile, setProfile] = useState<ProfileBody>({
     name: "",
     phone_number: "",
     location: "",
@@ -58,7 +61,12 @@ const ProfileSetup: React.FC<any> = ({ route }) => {
   const onDateChange = (event: any, selectedDate?: Date) => {
     setShowDatePicker(false);
     if (selectedDate) {
-      const formattedDate = selectedDate.toISOString().split("T")[0];
+      // Format selected date as dd-mm-yy
+      const day = String(selectedDate.getDate()).padStart(2, "0");
+      const month = String(selectedDate.getMonth() + 1).padStart(2, "0"); // Month is zero-based
+      const year = String(selectedDate.getFullYear()); // Get last 2 digits of the year
+      const formattedDate = `${day}-${month}-${year}`;
+
       setDate(selectedDate);
       setProfile({ ...profile, date_of_birth: formattedDate });
     }
@@ -92,7 +100,7 @@ const ProfileSetup: React.FC<any> = ({ route }) => {
         ? await handleImageUpload(profile)
         : "";
 
-      const response = await profileSetUp(id, profile, imageURL);
+      const response = await ProfileSetup(id, profile, imageURL);
       if (response?.status === "success") {
         navigationController.navigate("Home");
       }
@@ -139,7 +147,7 @@ const ProfileSetup: React.FC<any> = ({ route }) => {
 
       <TextInput
         style={styles.input}
-        placeholder="Location*"
+        placeholder="location*"
         placeholderTextColor={color.TextSecondary}
         value={profile.location}
         onChangeText={(text) => globalFormHandler("location", text, setProfile)}
@@ -169,7 +177,7 @@ const ProfileSetup: React.FC<any> = ({ route }) => {
           mode="date"
           display={Platform.OS === "ios" ? "spinner" : "default"}
           onChange={onDateChange}
-          maximumDate={new Date()}
+          maximumDate={new Date(new Date().setDate(new Date().getDate() - 7))}
         />
       )}
       {/* Submit Button */}
@@ -192,4 +200,4 @@ const ProfileSetup: React.FC<any> = ({ route }) => {
   );
 };
 
-export default ProfileSetup;
+export default Profile;

@@ -1,6 +1,7 @@
 import axios from "axios";
 import * as SecureStore from "expo-secure-store";
 
+
 // Create an Axios instance
 export const apiClient = axios.create({
   baseURL: "https://eventra-main-server-production.up.railway.app/api/v1",

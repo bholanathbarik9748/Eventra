@@ -7,7 +7,7 @@ import { useAuthStorage } from "@/src/hooks/UseAuthStorage";
 import {
   HomeScreenNavigationProp,
   LoginScreenNavigationProp,
-  ProfileSetupScreenNavigationProp,
+  ProfileScreenNavigationProp,
 } from "@/app/RootStackParamType";
 import { useFocusEffect } from "expo-router";
 import { ErrorAlert } from "@/src/modules/ErrorAlert";
@@ -18,7 +18,7 @@ const Splash = () => {
   const navigationController = useNavigation<
     | LoginScreenNavigationProp
     | HomeScreenNavigationProp
-    | ProfileSetupScreenNavigationProp
+    | ProfileScreenNavigationProp
   >();
   const fadeAnim = useRef(new Animated.Value(0)).current;
   const scaleAnim = useRef(new Animated.Value(0.8)).current;
@@ -48,9 +48,9 @@ const Splash = () => {
       } else {
         try {
           const response = await checkProfileStatus(userId);
-          response?.isProfileSetUp
+          response?.isProfile
             ? navigationController.navigate("Home")
-            : navigationController.navigate("ProfileSetup", { id: userId });
+            : navigationController.navigate("Profile", { id: userId });
         } catch (error: any) {
           ErrorAlert("Error", error?.data?.message[0], "Close");
         }

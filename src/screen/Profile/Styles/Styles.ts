@@ -70,5 +70,27 @@ export const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "bold",
   },
+  autocompleteContainer: {
+    marginBottom: 15,
+    zIndex: 1000,
+  },
+  listView: {
+    backgroundColor: "#fff",
+    borderWidth: 1,
+    borderColor: "#ddd",
+    borderRadius: 8,
+    maxHeight: 200,
+  },
+  inputText: { color: "#555" },
+  closeButton: {
+    backgroundColor: "#FF5733",
+    padding: 10,
+    alignItems: "center",
+  },
+  autocompleteInput: {
+    borderColor: "#ccc",
+    borderWidth: 1,
+    marginTop: 20,
+    marginHorizontal: 10,
+  },
 });
-
